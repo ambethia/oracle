@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'eventmachine'
-gem 'thin'
+gem 'puma'
 gem 'faye'
 gem 'sinatra'
 gem 'foreman'
