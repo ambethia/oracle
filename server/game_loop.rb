@@ -40,9 +40,7 @@ class GameLoop
 
   def begin_new_game!
     websocket.publish('/done')
-
     EM.add_timer(5) { websocket.publish('/prepare') }
-
     EM.add_timer(10) { websocket.publish('/begin') }
   end
 

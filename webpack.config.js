@@ -29,9 +29,9 @@ var config = {
         inject: 'body',
         filename: 'index.html'
       }),
-      // new webpack.DefinePlugin({
-      //   'process.env.NODE_ENV': ENVIRONMENT
-      // })
+      new webpack.DefinePlugin({
+        __FAYE_CLIENT_URL__: (ENVIRONMENT === 'production' ? "'/bayeux'" : "'//localhost:5000/bayeux'")
+      })
     ],
     module: {
       loaders: [{

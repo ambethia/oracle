@@ -1,9 +1,7 @@
-require 'faye'
+require 'rubygems'
+require 'bundler/setup'
 
-use Faye::RackAdapter, mount: '/socket', timeout: 25
+require_relative 'server/app'
 
-use Rack::Static, urls: [''], root: 'public', index: 'index.html'
-
-run lambda { |_env|
-  [200, { 'Content-Type' => 'text/plain' }, 'OK']
-}
+$stdout.sync = true
+run App

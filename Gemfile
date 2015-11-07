@@ -3,7 +3,8 @@ source 'https://rubygems.org'
 gem 'eventmachine'
 gem 'thin'
 gem 'faye'
+gem 'sinatra'
 gem 'foreman'
-gem "redis", "~> 3.0.1"
-gem "hiredis", "~> 0.4.5"
-gem "em-synchrony"
+gem 'redis', '~> 3.0.1'
+gem 'hiredis', '~> 0.4.5'
+gem 'em-synchrony'
