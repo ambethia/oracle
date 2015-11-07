@@ -11,7 +11,7 @@ module Server
     def initialize(app)
       @app     = app
       @clients = []
-      @redis   = Redis.new(:driver => :synchrony)
+      @redis   = EM::Hiredis.connect
     end
 
     def call(env)
@@ -64,7 +64,7 @@ class MessageParser
 
   def dispatch!
     if is_mouse_move?
-      MouseMove.new(@message, @redis).store!
+      MouseMove.new(@message, @redis, @websocket.object_id).store!
     else
       dispatch_message_to_clients!
     end
@@ -82,16 +82,14 @@ class MessageParser
 end
 
 class MouseMove
-  def initialize(message, redis)
+  def initialize(message, redis, client_id)
     @redis = redis
-    @event, @client_id, @x, @y, @mouseup = message.split(':')
+    @event, @x, @y, @mouseup = message.split(':')
+    @client_id = client_id
   end
 
   def store!
-    Fiber.new {
-      puts "Setting Redis Data"
-      @redis.set("mousemove:#{@client_id}", "#{@x},#{@y}")
-      @redis.set("mouseup:#{@client_id}", @mouseup)
-    }.resume
+    @redis.set("mousemove:#{@client_id}", "#{@x},#{@y}")
+    @redis.set("mouseup:#{@client_id}", @mouseup)
   end
 end
