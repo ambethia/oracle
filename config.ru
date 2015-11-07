@@ -1,10 +1,10 @@
 require 'faye'
-bayeux = Faye::RackAdapter.new(:mount => '/socket', :timeout => 25)
-# run bayeux
 
+use Faye::RackAdapter, mount: '/socket', timeout: 25
 use Rack::Static, urls: [''], root: 'public', index: 'index.html'
 
 run lambda { |_env|
+  puts "lambda"
   [
     200,
     {
