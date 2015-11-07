@@ -2,6 +2,8 @@ GEM
   remote: https://rubygems.org/
   specs:
     daemons (1.2.3)
+    em-hiredis (0.2.1)
+      hiredis (~> 0.4.0)
     em-synchrony (1.0.4)
       eventmachine (>= 1.0.0.beta.1)
     eventmachine (1.0.8)
@@ -33,6 +35,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  em-hiredis
   em-synchrony
   eventmachine
   faye-websocket
