@@ -89,8 +89,9 @@ class MouseMove
 
   def store!
     Fiber.new {
+      puts "Setting Redis Data"
       @redis.set("mousemove:#{@client_id}", "#{@x},#{@y}")
       @redis.set("mouseup:#{@client_id}", @mouseup)
-    }
+    }.resume
   end
 end

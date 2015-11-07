@@ -9,3 +9,5 @@ gem 'redis', '~> 3.0.1'
 gem 'em-hiredis'
 gem 'hiredis', '~> 0.4.5'
 gem 'em-synchrony'
+
+gem 'redis-browser'
