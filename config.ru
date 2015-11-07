@@ -1,4 +1,4 @@
-use Rack::Static, root: 'public'
+use Rack::Static, urls: [''], root: 'public'
 
 run lambda { |_env|
   [
