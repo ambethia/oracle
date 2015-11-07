@@ -8,7 +8,7 @@ class Planchette extends Component {
   // this.props.client.send('move');
   constructor(props) {
     super(props)
-    this.debounceMouseMove = _.throttle(this.handleMouseMove, 300);
+    this.debounceMouseMove = _.throttle(this.handleMouseMove.bind(this), 300);
   }
 
   componentDidMount() {
@@ -30,14 +30,15 @@ class Planchette extends Component {
     const t = event.target;
     const oX = event.offsetX - (t.offsetWidth / 2);
     const oY = event.offsetY - (t.offsetHeight / 2);
+    this.props.client.send(`move:${oX}:${oY}`);
+  }
 
-    let nX = parseFloat(t.style.left) + oX + 'px';
-    let nY = parseFloat(t.style.top) + oY + 'px';
-
+  handleRemoteUpdate() {
+    t = ReactDOM.findDOMNode(this);
+    let nX = parseFloat(t.style.left) + x + 'px';
+    let nY = parseFloat(t.style.top) + y + 'px';
     t.style.left = nX;
     t.style.top = nY;
-
-    console.log('moved', oX, oY, nX, nY, t.style);
   }
 
   render() {
