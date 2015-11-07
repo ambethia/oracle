@@ -27,7 +27,13 @@ class CursorPositionDispatcher
   def dispatch!
     @redis.keys('mousemove:*').callback { |keys|
       @redis.mget(*keys).callback { |values|
-        @websocket.send("position:#{position values}")
+        current_position = position(values)
+
+        @redis.mset keys.zip(["0,0"] * keys.length)
+
+        unless position == "0,0"
+          @websocket.send("position:#{position values}")
+        end
       }
     }
   end
@@ -40,8 +46,7 @@ class CursorPositionDispatcher
   end
 
   def average(collection, method_sym)
-    collection = collection.map(&method_sym)
-    collection.map(&:to_i).inject(0, :+) / collection.length
+    collection.lazy.map(&method_sym).map(&:to_i).inject(0, :+) / collection.length
   end
 end
 
