@@ -1,13 +1,17 @@
 $stdout.sync = true
 
-require 'faye'
-# require 'redis'
+require 'faye/websocket'
+require 'redis'
 
 require_relative 'mouse_move_handler'
 
 HOST = 'localhost:5000' # TODO: Fix
 
+
+puts "1"
+
 EM.run do
+  puts "2"
   # redis = Redis.new(driver: :synchrony)
   # ws = Faye::WebSocket::Client.new("ws://#{HOST}/bayeux")
   #
@@ -23,14 +27,20 @@ EM.run do
   #   p [:close, event.code, event.reason]
   # end
 
-  ws = Faye::Client.new("ws://#{HOST}/bayeux")
+  ws = Faye::WebSocket::Client.new("ws://#{HOST}/bayeux")
 
-  ws.publish('/woo', 'hello') do |message|
+  puts ws.inspect
+
+  ws.send('hello') do |message|
     puts message
   end
 
-  ws.subscribe('/move') do |message|
-    puts message.inspect
+  ws.on('open') do |e|
+    puts [:open, e]
+  end
+
+  ws.on('message') do |event|
+    puts event.inspect
     MouseMoveHandler.handle!(message: message, redis: redis)
   end
 end

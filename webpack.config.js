@@ -30,7 +30,7 @@ var config = {
         filename: 'index.html'
       }),
       new webpack.DefinePlugin({
-        __FAYE_CLIENT_URL__: (ENVIRONMENT === 'production' ? "'/bayeux'" : "'//localhost:5000/bayeux'")
+        __FAYE_CLIENT_URL__: (ENVIRONMENT === 'production' ? "'/bayeux'" : "'ws://localhost:5000/bayeux'")
       })
     ],
     module: {

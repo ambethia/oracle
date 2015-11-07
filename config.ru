@@ -1,11 +1,11 @@
 $stdout.sync = true
 
-require 'rubygems'
-require 'bundler/setup'
+require 'faye/websocket'
 
 require_relative 'server/app'
+require_relative 'server/backend'
 
-# Faye::WebSocket.load_adapter('thin')
+Faye::WebSocket.load_adapter('thin')
 
-use Faye::RackAdapter, mount: '/bayeux', timeout: 25
-run App
+use Server::Backend
+run Server::App

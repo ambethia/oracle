@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
 gem 'eventmachine'
-gem 'puma'
-gem 'faye'
+gem 'thin'
+gem 'faye-websocket'
 gem 'sinatra'
 gem 'foreman'
 gem 'redis', '~> 3.0.1'
