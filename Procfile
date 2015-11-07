@@ -1,2 +1,2 @@
-web: bundle exec rackup -s thin -E production config.ru
+web: bundle exec thin start -R config.ru -e production -p $PORT
 worker: bundle exec ruby server/main.rb

@@ -5,7 +5,7 @@ require_relative 'mouse_move_handler'
 
 EM.run do
   redis = Redis.new(:driver => :synchrony)
-  websocket = Faye::Client.new('http://localhost:9292/socket')
+  websocket = Faye::Client.new("http://localhost:#{ENV['PORT']}/socket")
 
   websocket.subscribe('/move') do |message|
     puts message.inspect
