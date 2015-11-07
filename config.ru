@@ -1,3 +1,16 @@
 require 'faye'
 bayeux = Faye::RackAdapter.new(:mount => '/socket', :timeout => 25)
-run bayeux
+# run bayeux
+
+use Rack::Static, urls: [''], root: 'public', index: 'index.html'
+
+run lambda { |_env|
+  [
+    200,
+    {
+      'Content-Type'  => 'text/html',
+      'Cache-Control' => 'public, max-age=86400'
+    },
+    File.open('public/index.html', File::RDONLY)
+  ]
+}
