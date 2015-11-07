@@ -4,6 +4,7 @@ require 'faye/websocket'
 class Worker
   def initialize
     EM.add_periodic_timer(1) {
+      GameTick.new(websocket, redis).tick!
       CursorPositionDispatcher.new(redis, websocket).dispatch!
     }
   end
@@ -39,7 +40,6 @@ class CursorPositionDispatcher
   end
 
   def average(collection, method_sym)
-    return 0 if collection.length == 0
     collection = collection.map(&method_sym)
     collection.map(&:to_i).inject(0, :+) / collection.length
   end
@@ -55,6 +55,7 @@ end
 #       start_new_letter
 #     else
 #       end_round
+#       expire_mousemove_keys
 #       prepare_new_round
 #       begin_new_round
 #     end
@@ -68,6 +69,6 @@ class GameTick
   end
 
   def tick!
-    @websocket.send('move:x:y:mouseup')
+    @websocket.send("move:#{rand(10)}:#{rand(8)}:mouseup")
   end
 end
