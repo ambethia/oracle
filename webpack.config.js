@@ -68,9 +68,6 @@ var config = {
   },
 
   production: {
-    output: {
-      filename: '[name]-[hash].min.js'
-    },
     plugins: [
       new ExtractTextPlugin('[name]-[hash].min.css'),
       new webpack.optimize.UglifyJsPlugin({
