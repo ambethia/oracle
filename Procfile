@@ -1,2 +1,2 @@
-server: bundle exec rackup -s thin -E production config.ru
-client: bundle exec ruby server/main.rb
+web: bundle exec rackup -s thin -E production config.ru
+worker: bundle exec ruby server/main.rb
