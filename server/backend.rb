@@ -90,6 +90,6 @@ class MouseMove
   end
 
   def store!
-    @redis.set("mousemove:#{@client_id}", "#{@x},#{@y}")
+    @redis.set("mousemove:#{@client_id}", "#{@x}:#{@y}")
   end
 end

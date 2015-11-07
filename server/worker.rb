@@ -22,7 +22,7 @@ class Worker
 end
 
 class CursorPositionDispatcher
-  RESET_COORDINATES = "0,0"
+  RESET_COORDINATES = "0:0"
 
   def initialize(redis, websocket)
     @redis = redis
@@ -36,7 +36,7 @@ class CursorPositionDispatcher
 
         @redis.mset *keys.zip([RESET_COORDINATES] * keys.length).flatten
 
-        unless current_position == "0:0"
+        unless current_position == RESET_COORDINATES
           @websocket.send("position:#{position values}")
         end
       }
@@ -44,7 +44,7 @@ class CursorPositionDispatcher
   end
 
   def position(values)
-    coordinates = values.delete_if { |pair| pair == RESET_COORDINATES }.map { |value| value.split(',') }
+    coordinates = values.delete_if { |pair| pair == RESET_COORDINATES }.map { |value| value.split(':') }
     return RESET_COORDINATES if coordinates.length.zero?
     x_coordinate = average(coordinates, :first)
     y_coordinate = average(coordinates, :last)
