@@ -85,12 +85,11 @@ end
 class MouseMove
   def initialize(message, redis, client_id)
     @redis = redis
-    @event, @x, @y, @mouseup = message.split(':')
+    @event, @x, @y = message.split(':')
     @client_id = client_id
   end
 
   def store!
     @redis.set("mousemove:#{@client_id}", "#{@x},#{@y}")
-    @redis.set("mouseup:#{@client_id}", @mouseup)
   end
 end
