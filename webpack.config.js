@@ -17,7 +17,10 @@ var config = {
       CLIENT_PATH
     ],
     output: {
-      path: BUILD_PATH
+      path: BUILD_PATH,
+      publicPath: '/',
+      filename: '[name].js',
+      hash: true
     },
     plugins: [
       new webpack.optimize.OccurenceOrderPlugin(),
@@ -62,12 +65,14 @@ var config = {
       new webpack.NoErrorsPlugin()
     ],
     output: {
-      filename: '[name].js',
-      publicPath: '/'
+
     }
   },
 
   production: {
+    output: {
+      filename: '[name]-[hash].min.js'
+    },
     plugins: [
       new ExtractTextPlugin('[name]-[hash].min.css'),
       new webpack.optimize.UglifyJsPlugin({
