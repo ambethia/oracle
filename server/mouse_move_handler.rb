@@ -1,27 +1,29 @@
 require_relative 'message_handler'
 
+# Mouse Movement
 class MouseMoveHandler < MessageHandler
-
-  POSITION_NAMESPACE = "position"
-  MOUSEUP_NAMESPACE = "position"
+  POSITION_NAMESPACE = 'position'
+  MOUSEUP_NAMESPACE = 'position'
 
   def self.cleanup_redis!
-    redis.del(redis.keys(
-      "#{POSITION_NAMESPACE}:*",
-      "#{MOUSEUP_NAMESPACE}:*"
-    ))
+    redis.del(
+      redis.keys(
+        "#{POSITION_NAMESPACE}:*",
+        "#{MOUSEUP_NAMESPACE}:*"
+      )
+    )
   end
 
   def handle!
     Fiber.new do
       redis.set("#{POSITION_NAMESPACE}:#{client_id}", position)
-      redis.set("#{MOUSEUP_NAMESPACE}:#{client_id}", is_mouseup?)
+      redis.set("#{MOUSEUP_NAMESPACE}:#{client_id}", mouse_up?)
     end
   end
 
   private
 
-  def is_mouseup?
+  def mouse_up?
     message.fetch('mouseup', true)
   end
 

@@ -1,3 +1,4 @@
+# Main application loop
 class GameLoop
   attr_reader :redis
   attr_reader :websocket
@@ -30,23 +31,19 @@ class GameLoop
     end
   end
 
-  def detect_letter_from_cursor_position!(&block)
+  def detect_letter_from_cursor_position!(&_block)
   end
 
   def letter_is_selected?(records)
-    records.select { |record| record == 'true' }.length > records.length
+    records.count { |record| record == 'true' } > records.length
   end
 
   def begin_new_game!
     websocket.publish('/done')
 
-    EM.add_timer(5) {
-      websocket.publish('/prepare')
-    }
+    EM.add_timer(5) { websocket.publish('/prepare') }
 
-    EM.add_timer(10) {
-      websocket.publish('/begin')
-    }
+    EM.add_timer(10) { websocket.publish('/begin') }
   end
 
   def delete_mouse_handler_keys!

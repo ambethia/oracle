@@ -1,3 +1,4 @@
+# Generic Message Handler
 class MessageHandler
   attr_reader :message
   attr_reader :redis
@@ -12,7 +13,7 @@ class MessageHandler
   end
 
   def handle!
-    raise 'You must implement a handle! method'
+    fail 'You must implement a handle! method'
   end
 
   def client_id
