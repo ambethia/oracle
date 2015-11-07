@@ -13,7 +13,7 @@ class MouseMoveHandler < MessageHandler
   end
 
   def handle!
-    redis.pipelined do
+    Fiber.new do
       redis.set("#{POSITION_NAMESPACE}:#{client_id}", position)
       redis.set("#{MOUSEUP_NAMESPACE}:#{client_id}", is_mouseup?)
     end

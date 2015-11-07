@@ -1,16 +1,10 @@
 require 'faye'
 
 use Faye::RackAdapter, mount: '/socket', timeout: 25
-use Rack::Static, urls: [''], root: 'public', index: 'index.html'
+
+public_files = Dir.entries('public')[2..-1] - ['index.html']
+use Rack::Static, urls: public_files, root: 'public', index: 'index.html'
 
 run lambda { |_env|
-  puts "lambda"
-  [
-    200,
-    {
-      'Content-Type'  => 'text/html',
-      'Cache-Control' => 'public, max-age=86400'
-    },
-    File.open('public/index.html', File::RDONLY)
-  ]
+  [ 404, { 'Content-Type' => 'text/plain' }, '404 Not Found' ]
 }

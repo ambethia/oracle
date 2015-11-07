@@ -8,6 +8,7 @@ EM.run {
   websocket = Faye::Client.new('http://localhost:9292/socket')
 
   websocket.subscribe('/move') do |message|
+    puts message.inspect
     MouseMoveHandler.handle!(message: message, redis: redis)
   end
 
