@@ -39,8 +39,8 @@ var config = {
         include: [CLIENT_PATH],
         loaders: ['react-hot', 'babel']
       }, {
-        test: /\.less$/,
-        loader: 'style!css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!less'
+        test: /\.scss$/,
+        loader: 'style!css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass'
       }, {
         test: /\.(css)(\?.+)?$/,
         loader: 'style!css'

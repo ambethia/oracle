@@ -1,5 +1,6 @@
 require 'faye/websocket'
 
+# redis = Redis.new(driver: :synchrony)
 module Server
   # Message handling
   class Backend
