@@ -7,12 +7,12 @@ export default class App extends Component {
     return (
       <div className={style.app}>
         <div className={style.greeting}>
+          <figure>
+            <img src={require('../assets/logo.png')} />
+          </figure>
           <h1>
             We are
-            <article className={style.oracle}>
-              <em className={style.oracle_glow}/>
-              <em className={style.oracle_white}/>
-            </article>
+            <em>Oracle</em>.
             Ask us a question.
           </h1>
         </div>

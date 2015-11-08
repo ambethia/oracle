@@ -59,6 +59,19 @@ $pink-glow: rgba(255, 48, 179, .4);
   }
 }
 
+@keyframes rotate {
+  from {
+    transform: rotate(0deg)
+		           translate(-15px)
+		           rotate(0deg);
+  }
+	to {
+		transform: rotate(360deg)
+		           translate(-15px)
+		           rotate(-360deg);
+	}
+}
+
 .overlay {
   animation-duration: 30s;
   animation-iteration-count: infinite;
@@ -75,50 +88,73 @@ $pink-glow: rgba(255, 48, 179, .4);
   z-index: 9001;
 }
 
-.oracle {
-  display: inline-block;
-  height: 82px;
-  width: 202px;
-  position: relative;
-  top: 32px;
-  margin: 0 24px;
-  overflow: hidden;
-
-  &> em {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-}
-
-.oracle_glow {
-  background-image: url('../assets/oracle-text-glow.gif');
-  animation-duration: 3s;
-  animation-iteration-count: infinite;
-  animation-name: opacity-anim;
-  animation-timing-function: linear;
-  z-index: 10;
-}
-
-.oracle_white {
-  background-image: url('../assets/oracle-text-white.png');
-  z-index: 9;
-  opacity: 0.8;
-  background-position: 9px 7px;
-  background-repeat: no-repeat;
-}
-
 .greeting {
   text-align: center;
 
   h1 {
-    line-height: 100px;
+    // line-height: 100px;
 
     span {
       @include glowing-green;
       text-emphasis: after;
+    }
+
+    em {
+      color: transparent;
+      display: inline-block;
+      height: 82px;
+      margin: 0 -12px 0 6px;
+      overflow: hidden;
+      position: relative;
+      vertical-align: middle;
+      width: 202px;
+    }
+
+    em::before {
+      animation-duration: 3s;
+      animation-iteration-count: infinite;
+      animation-name: opacity-anim;
+      animation-timing-function: ease-in-out;
+      background-image: url('../assets/oracle-text-glow.gif');
+      bottom: 0;
+      content: "";
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+
+    em::after {
+      background: url('../assets/oracle-text-white.png');
+      background-repeat: no-repeat;
+      bottom: 0;
+      content: "";
+      left: 8px;
+      position: absolute;
+      right: 0;
+      top: 6px;
+      z-index: -1;
+    }
+  }
+
+  figure {
+    position: relative;
+    margin: auto;
+    padding: 80px 80px 10px;
+    background-image: url('../assets/logo-afterimage.png'), url('../assets/logo-afterimage.png'), url('../assets/logo-afterimage.png');
+    background-repeat: no-repeat;
+    background-position: -10px -10px, 60px 10px, 120px 40px;
+
+    .logo {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+
+      background-image: url('../assets/logo-noglo.png'), url('../assets/logo-noglo.png');
+      background-position: 0 0 , bottom;
+      background-repeat: no-repeat;
     }
   }
 }
