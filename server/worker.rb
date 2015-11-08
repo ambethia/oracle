@@ -3,14 +3,14 @@ require 'faye/websocket'
 
 class Worker
   def initialize
-    GameTick.reset_game_state!(redis)
+    EM.add_periodic_timer(0.5) {
+      CursorPositionDispatcher.new(redis, websocket).dispatch!
+    }
 
     EM.add_periodic_timer(0.5) {
       GameTick.new(websocket, redis).tick!
-      CursorPositionDispatcher.new(redis, websocket).dispatch!
     }
   end
-
 
   def redis
     @redis ||= EM::Hiredis.connect
@@ -20,6 +20,8 @@ class Worker
     @websocket ||= Faye::WebSocket::Client.new("ws://localhost:#{ENV['PORT']}/bayeux")
   end
 end
+
+
 
 class CursorPositionDispatcher
   RESET_COORDINATES = "0:0"
@@ -75,17 +77,61 @@ end
 class GameTick
   STATES = %w(questions)
 
-  def self.reset_game_state!(redis)
-    redis.set('game-state', STATES.first)
-    redis.ltrim('questions', 0, -1)
-  end
-
   def initialize(websocket, redis)
     @websocket = websocket
     @redis = redis
   end
 
   def tick!
-    # @websocket.send("move:#{rand(10)}:#{rand(8)}:mouseup")
+    with_mousemove_records do |keys, values|
+      LetterSelectDeterminer.new(values).if_letter_is_selected? do |letter|
+        LetterSelector.new(@websocket, @redis).pick_letter!(letter)
+        @redis.send("letter-selected:#{letter}")
+      end
+    end
+  end
+
+  private
+
+  def with_mousemove_records
+    @redis.keys('mousemove:*').callback { |keys|
+      @redis.mget(*keys).callback { |values|
+        yield(keys, values)
+      }
+    }
+  end
+end
+
+class LetterSelector
+  def initialize(websocket, redis)
+    @websocket = websocket
+    @redis = redis
+  end
+
+  def pick_letter!(letter)
+    @websocket.send("letter-picked:#{letter}")
+    @redis.append("current-word", letter)
+  end
+end
+
+class LetterSelectDeterminer
+  def initialize(values)
+    @values = values
+  end
+
+  def if_letter_is_selected?
+    false
+  end
+
+  def if_letter_exists?
+    yield(selected_letter) if should_pick_letter?
+  end
+
+  def should_pick_letter?
+    inactive_values.count > (values.count / 2)
+  end
+
+  def inactive_values
+    values.select { |value| value == CursorPositionDispatcher::RESET_COORDINATES }
   end
 end
