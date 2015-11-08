@@ -10,8 +10,8 @@ module Server
       set :threaded, false
     end
 
-    get '/hello' do
-      'Hello World'
+    get '/' do
+      File.read File.join('public', 'index.html')
     end
   end
 end
