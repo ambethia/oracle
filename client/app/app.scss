@@ -103,9 +103,11 @@ $pink-glow: rgba(255, 48, 179, .4);
 }
 
 .oracle_white {
-  background-image: url('../assets/oracle-text-white.gif');
+  background-image: url('../assets/oracle-text-white.png');
   z-index: 9;
   opacity: 0.8;
+  background-position: 9px 7px;
+  background-repeat: no-repeat;
 }
 
 .greeting {
