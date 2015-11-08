@@ -7,7 +7,7 @@ class Worker
       CursorPositionDispatcher.new(redis, websocket).dispatch!
     }
 
-    EM.add_periodic_timer(3) {
+    EM.add_periodic_timer(0.5) {
       GameTick.new(websocket, redis).tick!
     }
   end
