@@ -5,7 +5,7 @@ class Worker
   def initialize
     GameTick.reset_game_state!(redis)
 
-    EM.add_periodic_timer(1) {
+    EM.add_periodic_timer(0.5) {
       GameTick.new(websocket, redis).tick!
       CursorPositionDispatcher.new(redis, websocket).dispatch!
     }

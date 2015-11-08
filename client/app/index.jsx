@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import SpiritBoard from './spiritBoard';
+import style from './app.scss';
 
 export default class App extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Hello, Rails Rumble!?</h1>
-        <SpiritBoard />
+      <div className={style.app}>
+        <div className={style.greeting}>
+          <h1>We are <em>Oracle</em>. Ask us a question.</h1>
+        </div>
+        <div className={style.overlay}></div>
       </div>
     );
   }

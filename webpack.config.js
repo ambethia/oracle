@@ -47,8 +47,14 @@ var config = {
       }, {
         test: /\.(ttf|eot|svg|otf|svg|woff|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: "file-loader"
+      }, {
+        test: /\.(jpe?g|png|gif)$/i,
+        loaders: ['url?limit=8192', 'img']
       }]
     },
+    postcss: [
+      require('autoprefixer')
+    ],
     resolve: {
       extensions: ['', '.js', '.jsx']
     }
@@ -82,9 +88,7 @@ var config = {
         }
       })
     ],
-    postcss: [
-      require('autoprefixer')
-    ]
+
   }
 }
 

@@ -1,0 +1,85 @@
+$green-fill: #a3ffe7;
+$green-glow: #30ffc4;
+$pink-fill: #fff;
+$pink-glow: rgba(255, 48, 179, .4);
+
+.app {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  position: relative;
+
+}
+
+@mixin glowing-green {
+  color: $green-fill;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-name: glowing-green-anim;
+  animation-timing-function: ease-in-out;
+
+}
+
+@keyframes glowing-green-anim {
+  0% {
+    text-shadow: 0 0 .5rem $green-glow;
+  }
+
+  50% {
+    text-shadow: 0 0 1rem $green-glow;
+  }
+
+  100% {
+    text-shadow: 0 0 .5rem $green-glow;
+  }
+}
+
+@keyframes scanlines-anim {
+  from {
+    background-position: 0 0, 0 0;
+  }
+
+  to {
+    background-position: 0 0, 0 648px;
+  }
+}
+
+.overlay {
+  animation-duration: 30s;
+  animation-iteration-count: infinite;
+  animation-name: scanlines-anim;
+  animation-timing-function: linear;
+  background-image: url('../assets/overlay-tile-grunge.png'), url('../assets/overlay-tile-scanlines.png');
+  background-repeat: repeat;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 9001;
+}
+
+.greeting {
+  text-align: center;
+
+  h1 {
+    line-height: 100px;
+
+    span {
+      @include glowing-green;
+      text-emphasis: after;
+    }
+
+    em {
+      background-image: url('../assets/oracle-text.png');
+      background-position: center;
+      display: inline-block;
+      height: 108px;
+      margin: 10px -24px;
+      text-indent: 100%;
+      width: 218px;
+    }
+  }
+}
