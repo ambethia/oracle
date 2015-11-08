@@ -35,6 +35,20 @@ $pink-glow: rgba(255, 48, 179, .4);
   }
 }
 
+@keyframes opacity-anim {
+  0% {
+    opacity: 0.1;
+  }
+
+  50% {
+    opacity: 1.0;
+  }
+
+  100% {
+    opacity: 0.1;
+  }
+}
+
 @keyframes scanlines-anim {
   from {
     background-position: 0 0, 0 0;
@@ -61,6 +75,39 @@ $pink-glow: rgba(255, 48, 179, .4);
   z-index: 9001;
 }
 
+.oracle {
+  display: inline-block;
+  height: 82px;
+  width: 202px;
+  position: relative;
+  top: 32px;
+  margin: 0 24px;
+  overflow: hidden;
+
+  &> em {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+.oracle_glow {
+  background-image: url('../assets/oracle-text-glow.gif');
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-name: opacity-anim;
+  animation-timing-function: linear;
+  z-index: 10;
+}
+
+.oracle_white {
+  background-image: url('../assets/oracle-text-white.gif');
+  z-index: 9;
+  opacity: 0.8;
+}
+
 .greeting {
   text-align: center;
 
@@ -70,16 +117,6 @@ $pink-glow: rgba(255, 48, 179, .4);
     span {
       @include glowing-green;
       text-emphasis: after;
-    }
-
-    em {
-      background-image: url('../assets/oracle-text.png');
-      background-position: center;
-      display: inline-block;
-      height: 108px;
-      margin: 10px -24px;
-      text-indent: 100%;
-      width: 218px;
     }
   }
 }
