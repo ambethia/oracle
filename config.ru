@@ -16,9 +16,8 @@ Signal.trap("TERM") { EventMachine.stop }
 EM.run {
   Worker.new
 
-  Thin::Server.start('localhost', ENV['PORT'], signals: false) do
+  Thin::Server.start('0.0.0.0', ENV['PORT'], signals: false) do
     use Server::Backend
     run Server::App
   end
 }
-
